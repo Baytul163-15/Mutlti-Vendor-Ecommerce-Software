@@ -47,9 +47,8 @@
                                 <input type="text" class="form-control" id="admin_type" name="admin_type" placeholder="Enter your type" value="{{ Auth::guard('admin')->user()->type }}">
                             </div>
                             <div class="form-group">
-                                <label for="current_password">Admin Name</label>
+                                <label for="admin_name">Admin Name</label>
                                 <input type="text" class="form-control" id="admin_name" name="admin_name" placeholder="Enter your name" value="{{ Auth::guard('admin')->user()->name }}">
-                                <span id="check_password"></span>
                             </div>
                             <div class="form-group">
                                 <label for="new_password">Admin Mobile Number</label>
@@ -57,7 +56,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="admin_image">Admin Image</label>
-                                <input type="file" class="form-control" id="admin_image" name="admin_image">
+                                <input type="file" class="form-control" id="admin_image" name="admin_image" onChange="mainThamUrl(this)">
+                                <img src="" id="mainThmb" alt=""><br>
                                 @if(!empty(Auth::guard('admin')->user()->image))
                                 <a target="_blank" href="{{ url('admin/images/adminImage/'.Auth::guard('admin')->user()->image) }}">View Image</a>
                                 @endif
@@ -81,5 +81,19 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+	function mainThamUrl(input){
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$('#mainThmb').attr('src',e.target.result).width(85).height(80);
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+	}	
+</script>
+
 
 @endsection

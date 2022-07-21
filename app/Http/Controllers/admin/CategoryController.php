@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Section;
 use Session;
+use Image;
 
 class CategoryController extends Controller
 {
@@ -46,6 +47,7 @@ class CategoryController extends Controller
             $category = Category::find($id);
             #Parent Category/Main Category
             $getCategories = Category::with('subcategories')->where(['parent_id'=>0,'section_id'=>$category['section_id']])->get();
+            // dd($getCategories);
             $message = "Category updated successfully!";
         }
 
@@ -81,29 +83,22 @@ class CategoryController extends Controller
 
             #Upload Category Image
             if ($request->hasFile('category_image')) {
-                // $image_temp = $request->file('category_image'); 
                 $cat_image = $request->file('category_image');
                 if ($cat_image->isValid()) {
-                    // $extension = $image_temp->getClientOriginalExtension();
-                    // $imageName = rand(111,99999).'.'.$extension; 
-                    // $iamge_path = 'admin/images/adminImage/'.$imageName; 
-                    // Image::make($image_temp)->save($iamge_path);
-                    $name_gen = hexdec(uniqid());
-                    $img_ext = strtolower($cat_image->getClientOriginalExtension());
-                    $img_name = $name_gen.'.'.$img_ext;
-                    $upload_location = 'admin/images/category_images/';
-                    $last_img = $upload_location.$img_name;
-                    $cat_image->move($upload_location,$img_name);
-                    $category->category_image = $img_name;
+                    $extension = $cat_image->getClientOriginalExtension();
+                    $imageName = rand(111,99999).'.'.$extension; 
+                    $iamge_path = 'admin/images/category_images/'.$imageName; 
+                    Image::make($cat_image)->resize(500,500)->save($iamge_path);
+                    $category->category_image = $imageName;
                 }
             }else{
-                $category->category_image = "";
+                $category->imageName = "";
             }
 
             $category->category_name = $data['category_name'];
             $category->section_id = $data['section_id'];
             $category->parent_id = $data['parent_id'];
-            $category->img_name;
+            $category->$imageName;
             $category->category_discount = $data['category_discount'];
             $category->category_description = $data['category_description'];
             $category->url = $data['url'];
@@ -119,7 +114,7 @@ class CategoryController extends Controller
         #Get all Section 
         $getSections = Section::get()->toArray();
         
-        return view('admin.categories.category_add_edit')->with(compact('title','category','message','getSections','getCategories'));
+        return view('admin.categories.category_add_edit')->with(compact('title','category','getSections','getCategories'));
     }
 
     #Append Category Lavel come from (custom.js)=> Web

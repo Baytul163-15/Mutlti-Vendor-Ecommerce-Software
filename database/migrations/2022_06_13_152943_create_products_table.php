@@ -23,13 +23,13 @@ return new class extends Migration
             $table->string('product_name')->unique();
             $table->string('product_code')->unique();
             $table->string('product_color')->nullable();
-            $table->string('product_price')->nullable();
-            $table->string('product_selling')->nullable();
-            $table->string('product_discount')->nullable();
-            $table->string('product_qty')->nullable();
+            $table->float('product_price')->nullable();      //Changeable
+            $table->float('product_selling')->nullable();    //Changeable
+            $table->float('product_discount')->nullable();   //Changeable
+            $table->integer('product_qty')->nullable();
             $table->string('product_size')->nullable();
             $table->string('product_slug')->nullable();
-            $table->string('product_weight')->nullable();
+            $table->integer('product_weight')->nullable();
             $table->string('product_image')->nullable();
             $table->string('product_vedio')->nullable();
             $table->string('meta_title')->nullable();

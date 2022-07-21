@@ -28,6 +28,9 @@
                                             Name
                                         </th>
                                         <th>
+                                            Created_at
+                                        </th>
+                                        <th>
                                             Staus
                                         </th>
                                         <th>
@@ -44,14 +47,21 @@
                                         <td>
                                             {{ $section['section_name'] }}
                                         </td>
+                                        <td>
+                                            @if($section['created_at'] == NULL)
+                                            <span class="text-danger">No time set</span>
+                                            @else
+                                            {{ Carbon\Carbon::parse($section['created_at'])->diffForHumans() }}
+                                            @endif
+                                        </td>
                                         <td class="text-center"> 
                                             @if($section['status'] == 1)
                                                 <a class="updateSectionStatus" id="section-{{ $section['id'] }}" section_id="{{ $section['id'] }}" href="javascript:void(0)">
-                                                    <i style="font-size: 15px; color: green;" class="mdi mdi-checkbox-blank-circle" status="Active"></i>
+                                                    <i style="font-size: 23px; color:#5050B2;" class="fa-solid fa-circle-check" status="Active"></i>
                                                 </a>
                                             @else 
                                                 <a class="updateSectionStatus" id="section-{{ $section['id'] }}" section_id="{{ $section['id'] }}" href="javascript:void(0)">  
-                                                    <i style="font-size: 15px; color: gray;" class="mdi mdi-checkbox-blank-circle" status="Inactive"></i>
+                                                    <i style="font-size: 23px; color: gray;" class="fa-solid fa-circle" status="Inactive"></i>
                                                 </a>
                                             @endif
                                         </td>
@@ -64,7 +74,7 @@
                                             </a> -->
 
                                             <a href="javascript:void(0)" class="confirmDelete" module="section" moduleid="{{ $section['id'] }}">
-                                                <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-delete"></i>
+                                                <i style="font-size: 30px; color:red;" class="mdi mdi-delete"></i>
                                             </a>
                                         </td>
                                     </tr>

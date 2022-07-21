@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\SectionController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\SliderController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\frontend\FrontendController;
 
 
 
@@ -36,7 +38,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\admin')->group(function
     // Route::get('login',[AdminController::class,'AdminLogin']);
     Route::match(['get','post'],'login',[AdminController::class,'AdminLogin']);
     Route::group(['middleware'=>['admin']], function(){
-        Route::get('dashboard',[AdminController::class,'AdminDashboard']);
+        Route::get('/dashboard',[AdminController::class,'AdminDashboard']);
 
         #update superadmin password
         Route::match(['get','post'],'update-superadmin-password',[AdminController::class,'UpdateSuperadminPassword']);
@@ -63,31 +65,31 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\admin')->group(function
         Route::post('/update-admin-status',[AdminController::class,'UpdateAdminStatus']);
 
         #Admin Logout
-        // Route::get('logout', [AdminController::class,'Logout']);
-        // Route::match(['get','post'],'logout',[AdminController::class,'Logout']);
+        // Route::post('/logout', [AdminController::class,'AdminLogout']);
+        Route::match(['get','post'],'/logout',[AdminController::class,'AdminLogout']);
 
         ##Type of Section##
-        #Section
+        # Section
         Route::get('/sections', [SectionController::class,'sections']);
-        #update Section Status
+        # Update Section Status
         Route::post('/update-section-status',[SectionController::class,'UpdateSectionStatus']);
-        #Delete Section
+        # Delete Section
         Route::get('/delete-section/{id}',[SectionController::class,'DeleteSection']);
-        #Add Section and Edit Section
+        # Add Section and Edit Section
         Route::match(['get','post'],'/edit-section/{id?}',[SectionController::class,'AddEditSection']);
 
         ##Type of Categorys##
-        #Category Route
+        # Category Route
         Route::get('/categories', [CategoryController::class,'Categories']);
-        #update Section Status
+        # update Section Status
         Route::post('/update-category-status',[CategoryController::class,'UpdateCategoryStatus']);
-        #Add Category and Edit Categorys
+        # Add Category and Edit Categorys
         Route::match(['get','post'],'/add-edit-category/{id?}',[CategoryController::class,'AddEditCategory']);
-        #Append Category Lavel come from (custom.js)
+        # Append Category Lavel come from (custom.js)
         Route::get('/append-categories-level', [CategoryController::class,'AppendCategoryLavel']);
-        #Delete Category
+        # Delete Category
         Route::get('/delete-category/{id}',[CategoryController::class,'DeleteCategory']);
-        #Delete Category Image
+        # Delete Category Image
         Route::get('/delete-section-image/{id}',[CategoryController::class,'DeleteCategoryImage']);
 
         ##Type of Brand##
@@ -99,7 +101,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\admin')->group(function
         Route::get('/delete-brand/{id}',[BrandController::class,'DeleteBrand']);
         # Add Brand and Edit Brand
         Route::match(['get','post'],'/add-edit-brand/{id?}',[BrandController::class,'AddEditBrand']);
-        #Delete Brand Image
+        # Delete Brand Image
         Route::get('/delete-brand-image/{id}',[BrandController::class,'DeleteBrandImage']);
 
         ##Type of Products##
@@ -111,15 +113,37 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\admin')->group(function
         Route::get('/delete-product/{id}',[ProductController::class,'DeleteProduct']);
         # Add Product and Edit Product
         Route::match(['get','post'],'/add-edit-products/{id?}',[ProductController::class,'AddEditProduct']);
-        #Delete Product Image
+        # Delete Product Image
         Route::get('/delete-product-image/{id}',[ProductController::class,'DeleteProductImage']);
-        #Delete Product vedio
+        # Delete Product vedio
         Route::get('/delete-product-vedio/{id}',[ProductController::class,'DeleteProductVedio']);
+
         #Product Attributes
         Route::match(['get','post'],'/add_edit_attributes/{id}',[ProductController::class,'AddProductAttributes']);
+        # Update Attributes Status
+        Route::post('/update-attribute-status',[ProductController::class,'UpdateAttributeStatus']);
+        # Delete product attribute
+        Route::get('/delete-attribute/{id}',[ProductController::class,'DeleteProductAttribute']);
+        # Attribute edit/update
+        Route::post('/edit-attribute/{id}',[ProductController::class,'UpdateAttribute']);
+
+        # Product Multiple Image upload
+        Route::match(['get','post'],'/add_images/{id}',[ProductController::class,'AddProductMultipleImage']);
+        # Update multi_image status
+        Route::post('/update-images-status',[ProductController::class,'UpdateImagesStatus']);
+        # Delete Multi_image
+        Route::get('/delete-images/{id}',[ProductController::class,'DeleteMultiImage']);
+
+        #Slider Section
+        Route::get('slider',[SliderController::class,'SliderSection']);
+        Route::post('/update-slider-status',[SliderController::class,'UpdateSliderStatus']);
+        Route::get('/delete-slider/{id}',[SliderController::class,'DeleteSlider']);
+        Route::match(['get','post'],'/add-edit-slider/{id?}',[SliderController::class,'AddEditSlider']);
+        Route::get('/delete-slider-image/{id}',[SliderController::class,'DeleteSliderImage']);
     });
-
-
-
 });
 
+############################## Start Frontend All Page ###############################
+Route::namespace('App\Http\Controllers\frontend')->group(function(){
+    Route::get('/', [FrontendController::class, 'HomePage'])->name('home');
+});

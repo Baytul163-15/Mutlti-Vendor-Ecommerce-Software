@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use Session;
+use Image;
 
 class BrandController extends Controller
 {
@@ -61,29 +62,23 @@ class BrandController extends Controller
 
             #Upload Brand Image
             if ($request->hasFile('brand_image')) {
-                // $image_temp = $request->file('brand_image'); 
                 $brd_image = $request->file('brand_image');
                 if ($brd_image->isValid()) {
-                    // $extension = $image_temp->getClientOriginalExtension();
-                    // $imageName = rand(111,99999).'.'.$extension; 
-                    // $iamge_path = 'admin/images/adminImage/'.$imageName; 
-                    // Image::make($image_temp)->save($iamge_path);
-                    $name_gen = hexdec(uniqid());
-                    $img_ext = strtolower($brd_image->getClientOriginalExtension());
-                    $img_name = $name_gen.'.'.$img_ext;
-                    $upload_location = 'admin/images/brand_image/';
-                    $last_img = $upload_location.$img_name;
-                    $brd_image->move($upload_location,$img_name);
-                    $brand->brand_image = $img_name;
+                    $extension = $brd_image->getClientOriginalExtension();
+                    $imageName = rand(111,99999).'.'.$extension; 
+                    $iamge_path = 'admin/images/brand_image/'.$imageName; 
+                    Image::make($brd_image)->save($iamge_path);
+                    $brand->brand_image = $imageName;
                 }
             }else{
-                $brand->brand_image = "";
+                $brand->imageName = "";
             }
-
+            
             $brand->brand_name = $data['brand_name'];
-            $brand->img_name;
+            $brand->$imageName;
             $brand->status = 1;
             $brand->save();
+            // dd($brand);
             return redirect('admin/brands')->with('success_message',$message);
         }
 

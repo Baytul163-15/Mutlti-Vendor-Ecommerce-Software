@@ -6,6 +6,7 @@ $(document).ready(function(){
     $('#brands').DataTable();
     $('#products').DataTable();
 
+    // For active color
     $(".nav-item").removeClass("active");
     $(".nav-link").removeClass("active");
 
@@ -50,9 +51,9 @@ $(document).ready(function(){
             success:function(resp){
                 // alert(resp);
                 if (resp['status']==0) {
-                    $("#admin-"+admin_id).html("<i style='font-size: 15px; color: gray;' class='mdi mdi-checkbox-blank-circle' status='Active'></i>");
+                    $("#admin-"+admin_id).html("<i style='font-size: 23px; color:gray;' class='fa-solid fa-circle' status='Active'></i>");
                 }else if (resp['status']==1) {
-                    $("#admin-"+admin_id).html("<i style='font-size: 15px; color: green;' class='mdi mdi-checkbox-blank-circle' status='Inactive'></i>");
+                    $("#admin-"+admin_id).html("<i style='font-size: 23px; color:#5050B2;' class='fa-solid fa-circle-check' status='Inactive'></i>");
                 }
             },
             error:function(){
@@ -61,7 +62,7 @@ $(document).ready(function(){
         })
     });
 
-    //Update Admin Status for Section
+    //Update Status for Section
     $(document).on("click",".updateSectionStatus", function(){
         // alert("Test");
         var status = $(this).children("i").attr("status"); 
@@ -77,9 +78,9 @@ $(document).ready(function(){
             success:function(resp){
                 // alert(resp);
                 if (resp['status']==0) {
-                    $("#section-"+section_id).html("<i style='font-size: 15px; color: gray;' class='mdi mdi-checkbox-blank-circle' status='Active'></i>");
+                    $("#section-"+section_id).html("<i style='font-size: 23px; color:gray;' class='fa-solid fa-circle' status='Active'></i>");
                 }else if (resp['status']==1) {
-                    $("#section-"+section_id).html("<i style='font-size: 15px; color: green;' class='mdi mdi-checkbox-blank-circle' status='Inactive'></i>");
+                    $("#section-"+section_id).html("<i style='font-size: 23px; color:#5050B2;' class='fa-solid fa-circle-check' status='Inactive'></i>");
                 }
             },
             error:function(){
@@ -122,7 +123,7 @@ $(document).ready(function(){
         })
     })
 
-    //Update Admin Status for Category
+    //Update Status for Category
     $(document).on("click",".updateCategoryStatus", function(){
         // alert("Test");
         var status = $(this).children("i").attr("status"); 
@@ -138,9 +139,9 @@ $(document).ready(function(){
             success:function(resp){
                 // alert(resp);
                 if (resp['status']==0) {
-                    $("#category-"+category_id).html("<i style='font-size: 15px; color: gray;' class='mdi mdi-checkbox-blank-circle' status='Active'></i>");
+                    $("#category-"+category_id).html("<i style='font-size: 23px; color:gray;' class='fa-solid fa-circle' status='Active'></i>");
                 }else if (resp['status']==1) {
-                    $("#category-"+category_id).html("<i style='font-size: 15px; color: green;' class='mdi mdi-checkbox-blank-circle' status='Inactive'></i>");
+                    $("#category-"+category_id).html("<i style='font-size: 23px; color:#5050B2;' class='fa-solid fa-circle-check' status='Inactive'></i>");
                 }
             },
             error:function(){
@@ -169,7 +170,7 @@ $(document).ready(function(){
         })
     });
 
-    //Update Admin Status for Brands
+    //Update Status for Brands
     $(document).on("click",".updateBrandStatus", function(){
         // alert("Test");
         var status = $(this).children("i").attr("status"); 
@@ -185,9 +186,9 @@ $(document).ready(function(){
             success:function(resp){
                 // alert(resp);
                 if (resp['status']==0) {
-                    $("#brand-"+brand_id).html("<i style='font-size: 15px; color: gray;' class='mdi mdi-checkbox-blank-circle' status='Active'></i>");
+                    $("#brand-"+brand_id).html("<i style='font-size: 23px; color:gray;' class='fa-solid fa-circle' status='Active'></i>");
                 }else if (resp['status']==1) {
-                    $("#brand-"+brand_id).html("<i style='font-size: 15px; color: green;' class='mdi mdi-checkbox-blank-circle' status='Inactive'></i>");
+                    $("#brand-"+brand_id).html("<i style='font-size: 23px; color:#5050B2;' class='fa-solid fa-circle-check' status='Inactive'></i>");
                 }
             },
             error:function(){
@@ -196,7 +197,7 @@ $(document).ready(function(){
         })
     });
 
-    //Update Admin Status for Product
+    //Update Status for Product
     $(document).on("click",".updateProductStatus", function(){
         // alert("Test");
         var status = $(this).children("i").attr("status"); 
@@ -212,9 +213,9 @@ $(document).ready(function(){
             success:function(resp){
                 // alert(resp);
                 if (resp['status']==0) {
-                    $("#product-"+product_id).html("<i style='font-size: 15px; color: gray;' class='mdi mdi-checkbox-blank-circle' status='Active'></i>");
+                    $("#product-"+product_id).html("<i style='font-size: 23px; color:gray;' class='fa-solid fa-circle' status='Active'></i>");
                 }else if (resp['status']==1) {
-                    $("#product-"+product_id).html("<i style='font-size: 15px; color: green;' class='mdi mdi-checkbox-blank-circle' status='Inactive'></i>");
+                    $("#product-"+product_id).html("<i style='font-size: 23px; color:#5050B2;' class='fa-solid fa-circle-check' status='Inactive'></i>");
                 }
             },
             error:function(){
@@ -244,6 +245,88 @@ $(document).ready(function(){
         e.preventDefault();
         $(this).parent('div').remove(); //Remove field html
         x--; //Decrement field counter
+    });
+
+    //Update Product Attribute Status 
+    $(document).on("click",".updateAttributeStatus", function(){
+        // alert("Test");
+        var status = $(this).children("i").attr("status"); 
+        var attribute_id = $(this).attr("attribute_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type:'post',
+            url:'/admin/update-attribute-status',
+            data:{status:status,attribute_id:attribute_id},
+            success:function(resp){
+                // alert(resp);
+                if (resp['status']==0) {
+                    $("#attribute-"+attribute_id).html("<i style='font-size: 15px; color: gray;' class='mdi mdi-checkbox-blank-circle' status='Active'></i>");
+                }else if (resp['status']==1) {
+                    $("#attribute-"+attribute_id).html("<i style='font-size: 15px; color: green;' class='mdi mdi-checkbox-blank-circle' status='Inactive'></i>");
+                }
+            },
+            error:function(){
+                alert("Error"); 
+            }
+        })
+    });
+
+    //Update Product Attribute Status 
+    $(document).on("click",".updateImagesStatus", function(){
+        // alert("Test");
+        var status = $(this).children("i").attr("status"); 
+        var images_id = $(this).attr("images_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type:'post',
+            url:'/admin/update-images-status',
+            data:{status:status,images_id:images_id},
+            success:function(resp){
+                // alert(resp);
+                if (resp['status']==0) {
+                    $("#images-"+images_id).html("<i style='font-size: 15px; color: gray;' class='mdi mdi-checkbox-blank-circle' status='Active'></i>");
+                }else if (resp['status']==1) {
+                    $("#images-"+images_id).html("<i style='font-size: 15px; color: green;' class='mdi mdi-checkbox-blank-circle' status='Inactive'></i>");
+                }
+            },
+            error:function(){
+                alert("Error"); 
+            }
+        })
+    });
+
+    //Update Section Status
+    //Update Status for Product
+    $(document).on("click",".updateSliderStatus", function(){
+        // alert("Test");
+        var status = $(this).children("i").attr("status"); 
+        var slider_id = $(this).attr("slider_id");
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type:'post',
+            url:'/admin/update-slider-status',
+            data:{status:status,slider_id:slider_id},
+            success:function(resp){
+                // alert(resp);
+                if (resp['status']==0) {
+                    $("#slider-"+slider_id).html("<i style='font-size: 23px; color:gray;' class='fa-solid fa-circle' status='Active'></i>");
+                }else if (resp['status']==1) {
+                    $("#slider-"+slider_id).html("<i style='font-size: 23px; color:#5050B2;' class='fa-solid fa-circle-check' status='Inactive'></i>");
+                }
+            },
+            error:function(){
+                alert("Error"); 
+            }
+        })
     });
 
 

@@ -76,83 +76,85 @@
                                     </div>
                                 </div>
                             </div>                    
-                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                            <a href="{{ url('admin/products') }}" class="btn btn-dark">Cancel</a>
+                            <button type="submit" class="btn btn-success px-5">Submit</button>
+                            <a href="{{ url('admin/products') }}" class="btn btn-danger px-5">Cancel</a>
                         </form>
                         <br><br><br>
                         <h4 class="card-title">Product Attributes</h4>
-                        <div class="table-responsive pt-3">
-                            <table id="products" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            ID
-                                        </th>
-                                        <th>
-                                            Size
-                                        </th>
-                                        <th>
-                                            Price
-                                        </th>
-                                        <th>
-                                            Stock
-                                        </th>
-                                        <th>
-                                            SKU
-                                        </th>
-                                        <th>
-                                            Staus
-                                        </th>
-                                        <th>
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($product['attributes'] as $attribute)
-                                    <tr>
-                                        <td>
-                                            {{ $attribute['id'] }}
-                                        </td>
-                                        <td>
-                                            {{ $attribute['size'] }}
-                                        </td>
-                                        <td>
-                                            {{ $attribute['price'] }}
-                                        </td>
-                                        <td>
-                                            {{ $attribute['stock'] }}
-                                        </td>
-                                        <td>
-                                            {{ $attribute['sku'] }}
-                                        </td>
-                                        <td class="text-center"> 
-                                            @if($attribute['status'] == 1)
-                                                <a class="updateAttributeStatus" id="attribute-{{ $attribute['id'] }}" attribute_id="{{ $attribute['id'] }}" href="javascript:void(0)">
-                                                    <i style="font-size: 15px; color: green;" class="mdi mdi-checkbox-blank-circle" status="Active"></i>
+                        <form method="post" action="{{ url('admin/edit-attribute/'.$product['id']) }}">
+                        @csrf
+                            <div class="table-responsive pt-3">
+                                <table id="products" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                ID
+                                            </th>
+                                            <th>
+                                                Size
+                                            </th>
+                                            <th>
+                                                Price
+                                            </th>
+                                            <th>
+                                                Stock
+                                            </th>
+                                            <th>
+                                                SKU
+                                            </th>
+                                            <th>
+                                                Staus
+                                            </th>
+                                            <th>
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($product['attributes'] as $attribute)
+                                        <input style="display: none;" type="text" name="attributeId[]" value="{{ $attribute['id'] }}">
+                                        <tr>
+                                            <td>
+                                                {{ $attribute['id'] }}
+                                            </td>
+                                            <td>
+                                                {{ $attribute['size'] }}
+                                            </td>
+                                            <td>
+                                                <input style="width: 70px; border:none;" type="number" name="price[]" value="{{ $attribute['price'] }}" requried>
+                                            </td>
+                                            <td>
+                                                <input style="width: 70px; border:none;" type="number" name="stock[]" value="{{ $attribute['stock'] }}" requried>
+                                            </td>
+                                            <td>
+                                                {{ $attribute['sku'] }}
+                                            </td>
+                                            <td class="text-center"> 
+                                                @if($attribute['status'] == 1)
+                                                    <a class="updateAttributeStatus" id="attribute-{{ $attribute['id'] }}" attribute_id="{{ $attribute['id'] }}" href="javascript:void(0)">
+                                                        <i style="font-size: 15px; color: green;" class="mdi mdi-checkbox-blank-circle" status="Active"></i>
+                                                    </a>
+                                                @else 
+                                                    <a class="updateAttributeStatus" id="attribute-{{ $attribute['id'] }}" attribute_id="{{ $attribute['id'] }}" href="javascript:void(0)">  
+                                                        <i style="font-size: 15px; color: gray;" class="mdi mdi-checkbox-blank-circle" status="Inactive"></i>
+                                                    </a>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <!-- <a title="Attribute" href="{{ url('admin/add-edit-attribute/'.$attribute['id']) }}">
+                                                    <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-pencil-box"></i>
+                                                </a> -->
+                                                <a href="javascript:void(0)" class="confirmDelete" module="attribute" moduleid="{{ $attribute['id'] }}">
+                                                    <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-delete"></i>
                                                 </a>
-                                            @else 
-                                                <a class="updateAttributeStatus" id="attribute-{{ $attribute['id'] }}" attribute_id="{{ $attribute['id'] }}" href="javascript:void(0)">  
-                                                    <i style="font-size: 15px; color: gray;" class="mdi mdi-checkbox-blank-circle" status="Inactive"></i>
-                                                </a>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a title="Attribute" href="{{ url('admin/add-edit-attribute/'.$attribute['id']) }}">
-                                                <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-pencil-box"></i>
-                                            </a>
-                                            <a title="Attribute" href="{{ url('admin/add_edit_attributes/'.$attribute['id']) }}">
-                                                <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-plus-box"></i>
-                                            </a>
-                                            <a href="javascript:void(0)" class="confirmDelete" module="attribute" moduleid="{{ $attribute['id'] }}">
-                                                <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-delete"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button type="submit" class="btn btn-success float-right px-5 mt-3">Update</button>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\admin;
 
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
 use Hash;
 use App\Models\Admin;
 use App\Models\Vendor;
@@ -16,11 +16,6 @@ use Session;
 
 class AdminController extends Controller
 {
-    # Admin/Vendor/User: Panel or Dashboard 
-    public function AdminDashboard(){
-        Session::put('page','admin_master');
-        return view('admin.admin_master');
-    }
 
     # Admin Login (if match email and password and status is 1 then login with Superadmin/admin)
     public function AdminLogin(Request $request){
@@ -48,6 +43,12 @@ class AdminController extends Controller
             }
         }
         return view('admin.login');
+    }
+
+    # Admin/Vendor/User: Panel or Dashboard 
+    public function AdminDashboard(){
+        Session::put('page','admin_master');
+        return view('admin.index');
     }
 
     # Update password for superadmin/admin 
@@ -320,10 +321,10 @@ class AdminController extends Controller
     }
 
     # Admin Logout
-    // public function Logout(){
-    //     Auth::guard('admin')->logout();
-    //     return redirect('admin/login');
-    // }
+    public function AdminLogout(Request $request) {
+        Auth::logout();
+        return redirect('admin/login');
+    }
 
     # Admin/superadmin/vendors manage in Admin_Manage.
     public function Admins($type=null){

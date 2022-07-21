@@ -48,6 +48,9 @@
                                         <th>
                                             Added By
                                         </th>
+                                        <!-- <th>
+                                            Created_at 
+                                        </th> -->
                                         <th>
                                             Staus
                                         </th>
@@ -76,7 +79,7 @@
                                         </td>
                                         <td>
                                             @if(empty($product['product_vedio']))
-                                                <img src="{{ asset('admin/vedio/products_vedio/no-video.jpg') }}" style="width: 120px; height: 95px; border-radius: 0px;">
+                                                <img src="{{ asset('admin/vedio/products_vedio/no-video.jpg') }}" style="width: 90px; height: 90px; border-radius: 0px;">
                                             @else
                                                 <video width="120" height="95" autoplay muted>
                                                     <source src="{{ asset('admin/vedio/products_vedio/'.$product['product_vedio']) }}" type="video/mp4">
@@ -94,7 +97,7 @@
                                             @if(empty($product['product_image']))
                                                 <img src="{{ asset('admin/images/common_image/no-photo.jpg') }}" style="width: 90px; height: 80px; border-radius: 0px;">
                                             @else
-                                                <img src="{{ asset('admin/images/products_images/small_image/'.$product['product_image']) }}" style="width: 90px; height: 80px; border-radius: 0px;">
+                                                <img src="{{ asset('admin/images/products_images/large_image/'.$product['product_image']) }}" style="width: 90px; height: 90px; border-radius: 0px;">
                                             @endif
                                         </td>
                                         <td>
@@ -105,28 +108,35 @@
                                             @endif
                                         </td>
                                         <!-- <td>
-                                            <img src="{{ asset('admin/images/products_images/'.$product['product_image']) }}" style="width: 100px; height: 60px; border-radius: 0px;">
+                                            @if($product['created_at'] == NULL)
+                                            <span class="text-danger">No time set</span>
+                                            @else
+                                            {{ Carbon\Carbon::parse($product['created_at'])->diffForHumans() }}
+                                            @endif
                                         </td> -->
                                         <td class="text-center"> 
                                             @if($product['status'] == 1)
                                                 <a class="updateProductStatus" id="product-{{ $product['id'] }}" product_id="{{ $product['id'] }}" href="javascript:void(0)">
-                                                    <i style="font-size: 15px; color: green;" class="mdi mdi-checkbox-blank-circle" status="Active"></i>
+                                                    <i style="font-size: 23px; color:#5050B2;" class="fa-solid fa-circle-check" status="Active"></i>
                                                 </a>
                                             @else 
                                                 <a class="updateProductStatus" id="product-{{ $product['id'] }}" product_id="{{ $product['id'] }}" href="javascript:void(0)">  
-                                                    <i style="font-size: 15px; color: gray;" class="mdi mdi-checkbox-blank-circle" status="Inactive"></i>
+                                                    <i style="font-size: 23px; color: gray;" class="fa-solid fa-circle" status="Inactive"></i>
                                                 </a>
                                             @endif
                                         </td>
                                         <td>
-                                            <a title="Product" href="{{ url('admin/add-edit-products/'.$product['id']) }}">
+                                            <a title="Edit Product" href="{{ url('admin/add-edit-products/'.$product['id']) }}">
                                                 <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-pencil-box"></i>
                                             </a>
-                                            <a title="Product" href="{{ url('admin/add_edit_attributes/'.$product['id']) }}">
+                                            <a title="Add Product Attribute" href="{{ url('admin/add_edit_attributes/'.$product['id']) }}">
                                                 <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-plus-box"></i>
                                             </a>
-                                            <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{ $product['id'] }}">
-                                                <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-delete"></i>
+                                            <a title="Add Multiple Image" href="{{ url('admin/add_images/'.$product['id']) }}">
+                                                <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-library-plus"></i>
+                                            </a>
+                                            <a title="Delete Product" href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{ $product['id'] }}">
+                                                <i style="font-size: 30px; color:red;" class="mdi mdi-delete"></i>
                                             </a>
                                         </td>
                                     </tr>

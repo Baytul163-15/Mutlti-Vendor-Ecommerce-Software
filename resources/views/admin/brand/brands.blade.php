@@ -31,6 +31,9 @@
                                             Brand Image
                                         </th>
                                         <th>
+                                            Created_at
+                                        </th>
+                                        <th>
                                             Staus
                                         </th>
                                         <th>
@@ -48,16 +51,23 @@
                                             {{ $brand['brand_name'] }}
                                         </td>
                                         <td>
-                                            <img src="{{ asset('admin/images/brand_image/'.$brand['brand_image']) }}" style="width: 100px; height: 60px; border-radius: 0px;">
+                                            <img src="{{ asset('admin/images/brand_image/'.$brand['brand_image']) }}" style="width: 100px; height: 70px; border-radius: 0px;">
+                                        </td>
+                                        <td>
+                                            @if($brand['created_at'] == NULL)
+                                            <span class="text-danger">No time set</span>
+                                            @else
+                                            {{ Carbon\Carbon::parse($brand['created_at'])->diffForHumans() }}
+                                            @endif
                                         </td>
                                         <td class="text-center"> 
                                             @if($brand['status'] == 1)
                                                 <a class="updateBrandStatus" id="brand-{{ $brand['id'] }}" brand_id="{{ $brand['id'] }}" href="javascript:void(0)">
-                                                    <i style="font-size: 15px; color: green;" class="mdi mdi-checkbox-blank-circle" status="Active"></i>
+                                                    <i style="font-size: 23px; color:#5050B2;" class="fa-solid fa-circle-check" status="Active"></i>
                                                 </a>
                                             @else 
                                                 <a class="updateBrandStatus" id="brand-{{ $brand['id'] }}" brand_id="{{ $brand['id'] }}" href="javascript:void(0)">  
-                                                    <i style="font-size: 15px; color: gray;" class="mdi mdi-checkbox-blank-circle" status="Inactive"></i>
+                                                    <i style="font-size: 23px; color: gray;" class="fa-solid fa-circle" status="Inactive"></i>
                                                 </a>
                                             @endif
                                         </td>
@@ -66,7 +76,7 @@
                                                 <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-pencil-box"></i>
                                             </a>
                                             <a href="javascript:void(0)" class="confirmDelete" module="brand" moduleid="{{ $brand['id'] }}">
-                                                <i style="font-size: 30px; color: #4B49AC;" class="mdi mdi-delete"></i>
+                                                <i style="font-size: 30px; color: red;" class="mdi mdi-delete"></i>
                                             </a>
                                         </td>
                                     </tr>

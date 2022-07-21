@@ -37,7 +37,7 @@
                                             Status
                                         </th>
                                         <th>
-                                            Actions
+                                            Details
                                         </th>
                                     </tr>
                                 </thead>
@@ -65,11 +65,11 @@
                                         <td class="text-center"> 
                                             @if($admin['status'] == 1)
                                                 <a class="updateAdminStatus" id="admin-{{ $admin['id'] }}" admin_id="{{ $admin['id'] }}" href="javascript:void(0)">
-                                                    <i style="font-size: 15px; color: green;" class="mdi mdi-checkbox-blank-circle" status="Active"></i>
+                                                    <i style="font-size: 23px; color:#5050B2;" class="fa-solid fa-circle-check" status="Active"></i>
                                                 </a>
                                             @else 
                                                 <a class="updateAdminStatus" id="admin-{{ $admin['id'] }}" admin_id="{{ $admin['id'] }}" href="javascript:void(0)">  
-                                                    <i style="font-size: 15px; color: gray;" class="mdi mdi-checkbox-blank-circle" status="Inactive"></i>
+                                                    <i style="font-size: 23px; color: gray;" class="fa-solid fa-circle" status="Inactive"></i>
                                                 </a>
                                             @endif
                                         </td>
